@@ -1,0 +1,3 @@
+doc_classification/doc_classification/config.py
+*.pyc
+doc_classification_env/
