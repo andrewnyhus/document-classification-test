@@ -26,13 +26,14 @@ SECRET_KEY = get_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', 'doc-classification-env.rfp9dxjybu.us-east-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['doc-classification-env.rfp9dxjybu.us-east-2.elasticbeanstalk.com']
 
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'doc_classification_app.apps.DocClassificationAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

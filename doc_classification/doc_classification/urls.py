@@ -21,5 +21,3 @@ urlpatterns = [
     path('', include('doc_classification_app.urls')),
     path('admin/', admin.site.urls),
 ]
-
-print("hello from urls")
