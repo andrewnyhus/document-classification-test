@@ -1,4 +1,4 @@
-doc_classification/doc_classification/config.py
+doc_classification/config.py
 *.pyc
 env/
 
