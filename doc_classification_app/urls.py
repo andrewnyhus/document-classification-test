@@ -4,5 +4,5 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('get_similar_documents', views.get_similar_documents),
+    path('get_prediction/', views.get_prediction),
 ]

@@ -8,25 +8,73 @@
 
 {% block content %}
 
+<script>
+  function formIsComplete(){
+    return document.getElementById("textInput").value != "";
+  }
+
+  function getPrediction(){
+
+    if (formIsComplete()){
+      $.ajax({
+        url: "/get_prediction/",
+        type: "POST",
+        data: {
+          words: JSON.stringify(document.getElementById("textInput").value)
+        },
+        success: function(response){
+          console.log(response);
+
+          // hide form
+          document.getElementsByClassName("formFlexbox")[0].style.display = "none";
+
+          //update header
+          document.getElementById("titleHeader").innerText = response
+
+        },
+        error: function(xhr, error_message, err){
+          var response = xhr.responseJSON;
+          console.log(response);
+        }
+      });
+    }else{
+      alert("Please complete the form");
+    }
+  }
+</script>
+
+<style>
+  /*Hide both file inputs and submit button*/
+  #textInput, #submitButton {
+    width: 80%;
+  }
+
+  .formFlexbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .jumbotron {
+    width: auto;
+    margin-left: 10%;
+    margin-right: 10%;
+    border-radius: 10px;
+  }
+</style>
+
+
   <div class="jumbotron">
-    <h1 style="text-align:center">
+    <h1 id="titleHeader" style="text-align:center">
       Document Classification System
     </h1>
 
     <form class="formFlexbox">
-
-      <input type="radio" id="uploadFileRadio" class="flexItem" name="fileSubmitMethod" onclick="uploadFileRadioClicked()" value="upload">
-      Upload File <br>
-      <input type="radio" id="pasteFileRadio" class="flexItem" name="fileSubmitMethod" onclick="pasteFileRadioClicked()" value="paste">
-      Paste File Contents <br>
-      <br><br>
-
-      <input id="fileInput" class="form-control flexItem" type="file" accept=".csv">
-      <textarea id="textInput" class="form-control flexItem" placeholder="Format: [File Title],[words delimited by space]
-            [Next File Title],[words delimited by space]..."></textarea>
+      <textarea id="textInput" class="form-control flexItem" placeholder="Enter words separated by spaces."></textarea>
 
       <br>
-      <button id="submitButton" class="btn btn-primary form-control flexItem" type="button" name="button">
+      <button id="submitButton" class="btn btn-primary form-control flexItem" type="button" onclick="getPrediction()" name="button">
         Submit File
       </button>
     </form>
@@ -34,46 +82,5 @@
   </div>
 
 
-  <script>
-    /*
-      Hides textarea, shows file input and submit button
-    */
-    function uploadFileRadioClicked(){
-      document.getElementById('fileInput').style.display = "block";
-      document.getElementById('textInput').style.display = "none";
-      document.getElementById('submitButton').style.display = "block";
-    }
-
-    /*
-      Hides file input, shows textarea and submit button
-    */
-    function pasteFileRadioClicked(){
-      document.getElementById('fileInput').style.display = "none";
-      document.getElementById('textInput').style.display = "block";
-      document.getElementById('submitButton').style.display = "block";
-    }
-  </script>
-
-  <style>
-    /*Hide both file inputs and submit button*/
-    #fileInput, #textInput, #submitButton {
-      display: none;
-      width: 80%;
-    }
-
-    .formFlexbox {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .jumbotron {
-      width: auto;
-      margin-left: 10%;
-      margin-right: 10%;
-      border-radius: 10px;
-    }
-  </style>
 
 {% endblock %}
