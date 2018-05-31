@@ -1,4 +1,5 @@
 doc_classification/config.py
+doc_classification_app/model_data/shuffled-full-set-hashed.csv
 *.pyc
 env/
 
