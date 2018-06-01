@@ -12,15 +12,12 @@ from pandas import DataFrame
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 
-from sklearn.externals import joblib
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.ensemble import RandomForestClassifier
-
-from sklearn.pipeline import make_pipeline
 
 import warnings
 import datetime
+
+
+# Help with Scikit stuff from http://zacstewart.com/2015/04/28/document-classification-with-scikit-learn.html
 
 
 classifier = MultinomialNB()
@@ -30,15 +27,16 @@ count_vectorizer = CountVectorizer()
 def setup():
     warnings.filterwarnings("ignore")
 
-    # load data
+    # open data file
     path_to_data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model_data", "shuffled-full-set-hashed.csv")
     data = open(path_to_data_file, "r")
 
+    # initialize arrays for loading data
     rows = []
     labels = []
 
     # iterate through the file line by line
-    # and store info
+    # to build the dataframe
     for line in data:
         title = line.split(",")[0]
         words = line.split(",")[1]
@@ -47,13 +45,28 @@ def setup():
         rows.append({'words': words, 'class': title})
         labels.append(title)
 
+    print("building dataframe")
+    sys.stdout.flush()
     # create DataFrame
     data_frame = DataFrame(rows, index=labels)
+    # shuffle dataset
+    #data_frame = data_frame.reindex(np.random.permutation(data_frame.index))
 
-    # fit the classifier to the term-document matrix
+    print("dataframe built, extracting features")
+    sys.stdout.flush()
+
+    # extract features
     counts = count_vectorizer.fit_transform(data_frame['words'].values)
     targets = data_frame['class'].values
+
+    print("extracted features, training classifier")
+    sys.stdout.flush()
+
+    # train classifier
     classifier.fit(counts, targets)
+
+    print("ready")
+    sys.stdout.flush()
 
 
 def index(request):
@@ -65,7 +78,7 @@ def index(request):
 def get_prediction(request):
     words = request.data['words']
 
-    # predict document type 
+    # predict document type
     test_count = count_vectorizer.transform([words])
     prediction = classifier.predict(test_count)
 

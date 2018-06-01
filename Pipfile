@@ -1,0 +1,40 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+awsebcli = "*"
+botocore = "*"
+cement = "*"
+certifi="*"
+colorama = "*"
+djangorestframework = "*"
+docker = "*"
+docker-pycreds = "*"
+dockerpty = "*"
+docopt = "*"
+docutils = "*"
+gunicorn = "*"
+jmespath = "*"
+numpy = "*"
+pandas = "*"
+pathspec = "*"
+python-dateutil = "*"
+pytz = "*"
+requests = "*"
+scikit-learn = "*"
+scipy = "*"
+six = "*"
+sklearn = "*"
+tabulate = "*"
+termcolor = "*"
+websocket-client = "*"
+Django = "*"
+PyYAML = "*"
+semantic_version = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
